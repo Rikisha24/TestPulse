@@ -153,7 +153,7 @@ export default function NewTestRunDialog({ open, onClose }: NewTestRunDialogProp
                   >
                     {deviceProfiles.map((dp) => (
                       <option key={dp.id} value={dp.id}>
-                        {dp.icon} {dp.name} ({dp.category}) - {dp.ram}
+                        {dp.name} ({dp.category}) - {dp.ram}
                       </option>
                     ))}
                   </select>

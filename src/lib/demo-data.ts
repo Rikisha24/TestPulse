@@ -106,7 +106,7 @@ export const deviceProfiles: DeviceProfile[] = [
     cpu: "Tensor G3",
     networkCondition: "4G LTE",
     delayFactor: 1.0,
-    icon: "📱",
+    icon: "phone",
   },
   {
     id: "dp-2",
@@ -117,7 +117,7 @@ export const deviceProfiles: DeviceProfile[] = [
     cpu: "Exynos 850",
     networkCondition: "4G",
     delayFactor: 1.5,
-    icon: "📱",
+    icon: "phone",
   },
   {
     id: "dp-3",
@@ -128,7 +128,7 @@ export const deviceProfiles: DeviceProfile[] = [
     cpu: "Helio G25",
     networkCondition: "3G",
     delayFactor: 2.5,
-    icon: "📱",
+    icon: "phone",
   },
   {
     id: "dp-4",
@@ -139,7 +139,7 @@ export const deviceProfiles: DeviceProfile[] = [
     cpu: "M1",
     networkCondition: "WiFi",
     delayFactor: 1.0,
-    icon: "📟",
+    icon: "tablet",
   },
   {
     id: "dp-5",
@@ -150,7 +150,7 @@ export const deviceProfiles: DeviceProfile[] = [
     cpu: "Snapdragon 680",
     networkCondition: "2G / Edge",
     delayFactor: 4.0,
-    icon: "📶",
+    icon: "network",
   },
   {
     id: "dp-6",
@@ -161,7 +161,7 @@ export const deviceProfiles: DeviceProfile[] = [
     cpu: "MT6739",
     networkCondition: "3G",
     delayFactor: 3.0,
-    icon: "💾",
+    icon: "memory",
   },
 ];
 

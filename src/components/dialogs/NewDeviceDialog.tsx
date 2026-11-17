@@ -97,12 +97,12 @@ export default function NewDeviceDialog({ open, onClose }: NewDeviceDialogProps)
       delayFactor: parseFloat(delay) || 1,
       icon:
         category === "tablet"
-          ? "📟"
+          ? "tablet"
           : category === "poor-network"
-          ? "📶"
+          ? "network"
           : category === "low-memory"
-          ? "💾"
-          : "📱",
+          ? "memory"
+          : "phone",
       multilingualSupport: multilingual,
     });
     setName("");

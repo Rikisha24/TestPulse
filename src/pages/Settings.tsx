@@ -5,9 +5,9 @@ const settingSections = [
     title: "Account",
     icon: User,
     items: [
-      { label: "Display Name", value: "Alex Morgan", type: "text" },
-      { label: "Email", value: "alex@testpulse.io", type: "text" },
-      { label: "Role", value: "Lead QA Engineer", type: "text" },
+      { label: "Team Name", value: "Codephoria", type: "text" },
+      { label: "Email", value: "contact@codephoria.io", type: "text" },
+      { label: "Organization", value: "QA Automation Engineering", type: "text" },
     ],
   },
   {

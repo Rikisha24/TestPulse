@@ -124,7 +124,7 @@ export default function LiveSimulationViewer({ runId, onClose }: LiveSimulationV
                     <span className="font-mono text-[9px] text-emerald-400">
                       {run.networkPreset?.includes("2G") ? "2G [E]" : "4G LTE"}
                     </span>
-                    <span>🔋 84%</span>
+                    <span>84%</span>
                   </div>
 
                   {/* App Header */}
@@ -137,8 +137,8 @@ export default function LiveSimulationViewer({ runId, onClose }: LiveSimulationV
 
                   {/* Dynamic Simulation Content */}
                   <div className="my-auto space-y-2 py-4">
-                    <div className="w-12 h-12 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center mx-auto text-xl animate-pulse">
-                      {profile?.icon || "📱"}
+                    <div className="w-12 h-12 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center mx-auto text-primary animate-pulse">
+                      <Smartphone className="w-6 h-6" />
                     </div>
                     <p className="text-sm font-semibold text-foreground">{currentScreen.title}</p>
                     <p className="text-xs text-primary/90 font-medium px-2">{currentScreen.subtitle}</p>
@@ -173,15 +173,15 @@ export default function LiveSimulationViewer({ runId, onClose }: LiveSimulationV
                 <div>[INFO] Network Throttling: {run.networkPreset || "4G"}</div>
                 <div>[INFO] Active Locale: {run.language}</div>
                 <div className="text-neutral-400">--- Execution Log ---</div>
-                <div>✔ launchApp: {project?.packageId} (1800ms)</div>
-                <div>✔ assertVisible: "Welcome" (620ms)</div>
-                <div>✔ tapOn: "Login" (450ms)</div>
-                <div>✔ inputText: "user@testpulse.in" (1100ms)</div>
-                <div>✔ tapOn: "Continue" (550ms)</div>
+                <div>[PASS] launchApp: {project?.packageId} (1800ms)</div>
+                <div>[PASS] assertVisible: "Welcome" (620ms)</div>
+                <div>[PASS] tapOn: "Login" (450ms)</div>
+                <div>[PASS] inputText: "user@testpulse.in" (1100ms)</div>
+                <div>[PASS] tapOn: "Continue" (550ms)</div>
                 {run.status === "failed" ? (
                   <>
                     <div className="text-rose-400">
-                      ✖ assertVisible: "Products" - TIMEOUT after 10000ms
+                      [FAIL] assertVisible: "Products" - TIMEOUT after 10000ms
                     </div>
                     <div className="text-rose-400">
                       [ERROR] SocketTimeoutException: Simulated network latency spike
@@ -189,10 +189,10 @@ export default function LiveSimulationViewer({ runId, onClose }: LiveSimulationV
                   </>
                 ) : (
                   <>
-                    <div>✔ assertVisible: "Products" (1400ms)</div>
-                    <div>✔ tapOn: "Checkout" (600ms)</div>
+                    <div>[PASS] assertVisible: "Products" (1400ms)</div>
+                    <div>[PASS] tapOn: "Checkout" (600ms)</div>
                     <div className="text-emerald-300 font-bold">
-                      ✔ Flow completed successfully in {Math.round((run.executionTime || 24000) / 1000)}s
+                      [SUCCESS] Flow completed successfully in {Math.round((run.executionTime || 24000) / 1000)}s
                     </div>
                   </>
                 )}

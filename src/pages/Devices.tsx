@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppState } from "@/context/AppStateContext";
-import { Wifi, Cpu, HardDrive, Gauge, Trash2, Play, Sparkles, Filter } from "lucide-react";
+import { Wifi, Cpu, HardDrive, Gauge, Trash2, Play, Sparkles, Filter, Smartphone, Tablet } from "lucide-react";
 import NewDeviceDialog from "@/components/dialogs/NewDeviceDialog";
 import NewTestRunDialog from "@/components/dialogs/NewTestRunDialog";
 
@@ -104,7 +104,17 @@ export default function Devices() {
 
               <div>
                 <div className="flex items-start justify-between">
-                  <div className="text-3xl">{profile.icon}</div>
+                  <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center text-primary">
+                    {profile.category === "tablet" ? (
+                      <Tablet className="w-5 h-5 text-primary" />
+                    ) : profile.category === "poor-network" ? (
+                      <Wifi className="w-5 h-5 text-destructive" />
+                    ) : profile.category === "low-memory" ? (
+                      <HardDrive className="w-5 h-5 text-warning" />
+                    ) : (
+                      <Smartphone className="w-5 h-5 text-primary" />
+                    )}
+                  </div>
                   <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${cat.className}`}>
                     {cat.label}
                   </span>
