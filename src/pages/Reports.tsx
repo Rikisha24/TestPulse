@@ -229,10 +229,10 @@ export default function Reports() {
                 </div>
               </div>
 
-              {/* Team Pikachu Signoff */}
+              {/* Signoff */}
               <div className="pt-4 border-t border-border/60 flex items-center justify-between text-xs text-muted-foreground">
                 <span>Verified by TestPulse Automated Framework</span>
-                <span className="font-semibold text-primary">Team Pikachu (VCET Hackathon)</span>
+                <span className="font-semibold text-primary">Enterprise QA Certified</span>
               </div>
             </div>
           ) : (
@@ -245,3 +245,4 @@ export default function Reports() {
     </div>
   );
 }
+

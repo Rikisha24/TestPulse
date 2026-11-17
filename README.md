@@ -1,13 +1,6 @@
 # TestPulse ⚡
 
-> **Simulation-driven mobile app testing framework eliminating reliance on expensive physical device labs — purpose-built for India's extreme device, network, and multilingual ecosystem.**
-
-🏆 **Team Name:** Pikachu  
-👥 **Team Members:**
-- **Sabin P S** — Team Lead & Cloud Architect
-- **Rikisha Shetty** — Frontend & UX Lead
-- **Krithi** — Test Automation Specialist
-- **Deeksha K** — Backend & Analytics Engineer
+> **Simulation-driven mobile app testing framework eliminating reliance on expensive physical device labs — purpose-built for extreme device, network, and multilingual mobile ecosystems.**
 
 ---
 
@@ -73,7 +66,7 @@ The TestPulse platform is structured into five cohesive layers:
 
 ## 🔄 End-to-End Workflow
 
-1. **User Login:** Authenticate using JWT session or Team Pikachu 1-click credentials.
+1. **User Login:** Authenticate using JWT session or demo credentials.
 2. **Select or Create Project:** Register application name, package ID, platform (Android/iOS), and version.
 3. **Configure Test Run:**
    - Select Device Profile (e.g., Redmi 9A, JioPhone Next, 2G Edge).
@@ -155,14 +148,3 @@ Open [http://localhost:8080](http://localhost:8080) in your browser.
 1. **E-Commerce Checkout Journey:** Login, search, catalog scroll, cart add, and checkout under throttled network conditions.
 2. **KiranaPay UPI Merchant Flow:** Soundbox handshake, dynamic QR code generation, simulated scan, and voice confirmation.
 3. **Indic Multilingual Font Bounds:** Verifies Devanagari, Tamil, and Telugu text length and checks for button text overflow.
-
----
-
-## 👥 Authors — Team Pikachu
-
-- **Sabin P S**
-- **Rikisha Shetty**
-- **Krithi**
-- **Deeksha K**
-
-*Developed for the VCET Hackathon 2026.*

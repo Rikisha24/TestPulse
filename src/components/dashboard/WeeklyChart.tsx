@@ -10,7 +10,13 @@ export default function WeeklyChart() {
           <BarChart data={weeklyRunsData} barGap={4}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(150, 10%, 14%)" vertical={false} />
             <XAxis dataKey="day" tick={{ fill: "hsl(150, 10%, 50%)", fontSize: 12 }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fill: "hsl(150, 10%, 50%)", fontSize: 12 }} axisLine={false} tickLine={false} />
+            <YAxis
+              domain={[0, 24]}
+              ticks={[0, 6, 12, 18, 24]}
+              tick={{ fill: "hsl(150, 10%, 50%)", fontSize: 12 }}
+              axisLine={false}
+              tickLine={false}
+            />
             <Tooltip
               contentStyle={{
                 backgroundColor: "hsl(150, 15%, 7%)",

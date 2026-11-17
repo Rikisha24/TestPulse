@@ -26,11 +26,11 @@ const initialData = {
   users: [
     {
       id: "u-1",
-      name: "Team Pikachu",
-      email: "demo@testpulse.io",
-      role: "Lead QA & DevOps",
-      members: ["Sabin P S", "Rikisha Shetty", "Krithi", "Deeksha K"],
-      token: "tp_jwt_team_pikachu_auth_token_2026",
+      name: "Alex Morgan",
+      email: "alex@testpulse.io",
+      role: "Lead QA Automation Engineer",
+      members: ["Alex Morgan"],
+      token: "tp_jwt_auth_token_live",
     },
   ],
   projects: [

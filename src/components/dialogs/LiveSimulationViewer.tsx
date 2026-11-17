@@ -313,3 +313,4 @@ export default function LiveSimulationViewer({ runId, onClose }: LiveSimulationV
     </div>
   );
 }
+

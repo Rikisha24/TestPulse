@@ -9,8 +9,22 @@ export default function DevicePerformanceChart() {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={devicePerformanceData} layout="vertical" barSize={16}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(150, 10%, 14%)" horizontal={false} />
-            <XAxis type="number" tick={{ fill: "hsl(150, 10%, 50%)", fontSize: 12 }} axisLine={false} tickLine={false} />
-            <YAxis type="category" dataKey="device" width={100} tick={{ fill: "hsl(150, 10%, 50%)", fontSize: 11 }} axisLine={false} tickLine={false} />
+            <XAxis
+              type="number"
+              domain={[0, 200]}
+              ticks={[0, 50, 100, 150, 200]}
+              tick={{ fill: "hsl(150, 10%, 50%)", fontSize: 12 }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis
+              type="category"
+              dataKey="device"
+              width={105}
+              tick={{ fill: "hsl(150, 10%, 75%)", fontSize: 11 }}
+              axisLine={false}
+              tickLine={false}
+            />
             <Tooltip
               contentStyle={{
                 backgroundColor: "hsl(150, 15%, 7%)",
@@ -20,7 +34,7 @@ export default function DevicePerformanceChart() {
                 fontSize: 12,
               }}
             />
-            <Bar dataKey="avgTime" fill="hsl(150, 40%, 50%)" radius={[0, 6, 6, 0]} />
+            <Bar dataKey="avgTime" fill="hsl(155, 65%, 48%)" radius={[0, 6, 6, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

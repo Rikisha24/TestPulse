@@ -74,10 +74,10 @@ export function useAppState() {
 
 const defaultUser: UserProfile = {
   id: "u-1",
-  name: "Team Pikachu",
-  email: "demo@testpulse.io",
-  role: "Lead QA & Systems Engineering",
-  members: ["Sabin P S", "Rikisha Shetty", "Krithi", "Deeksha K"],
+  name: "Alex Morgan",
+  email: "alex@testpulse.io",
+  role: "Lead QA Automation Engineer",
+  members: ["Alex Morgan"],
 };
 
 export function AppStateProvider({ children }: { children: ReactNode }) {

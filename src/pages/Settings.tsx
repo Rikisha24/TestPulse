@@ -1,161 +1,84 @@
-import { useState } from "react";
-import { Shield, Key, Bell, Users, Globe, Cpu, Zap, Check, Copy } from "lucide-react";
-import { useAppState } from "@/context/AppStateContext";
+import { Shield, Key, Bell, User, Cpu } from "lucide-react";
 
-const teamMembers = [
-  { name: "Sabin P S", role: "Team Lead & Cloud Architect", avatar: "⚡", focus: "Async Bull Queue & API Gateway" },
-  { name: "Rikisha Shetty", role: "Frontend & UX Lead", avatar: "🎨", focus: "React, Tailwind & Emulator UI" },
-  { name: "Krithi", role: "Test Automation Specialist", avatar: "🧪", focus: "Maestro YAML Flows & Appium" },
-  { name: "Deeksha K", role: "Backend & Analytics Engineer", avatar: "📊", focus: "Device Simulator & AI Rules" },
+const settingSections = [
+  {
+    title: "Account",
+    icon: User,
+    items: [
+      { label: "Display Name", value: "Alex Morgan", type: "text" },
+      { label: "Email", value: "alex@testpulse.io", type: "text" },
+      { label: "Role", value: "Lead QA Engineer", type: "text" },
+    ],
+  },
+  {
+    title: "Security",
+    icon: Shield,
+    items: [
+      { label: "Two-Factor Authentication", value: "Enabled", type: "badge" },
+      { label: "Session Timeout", value: "30 minutes", type: "text" },
+    ],
+  },
+  {
+    title: "API Keys & Integrations",
+    icon: Key,
+    items: [
+      { label: "Production API Key", value: "tp_live_••••••••••••k9xZ", type: "mono" },
+      { label: "Webhook URL", value: "https://hooks.testpulse.io/v1/events", type: "mono" },
+    ],
+  },
+  {
+    title: "Simulation Engine Configuration",
+    icon: Cpu,
+    items: [
+      { label: "Engine Runtime", value: "Maestro v1.38.0 + Appium 2.0", type: "mono" },
+      { label: "Network Throttler", value: "Active (2G/3G/4G Profiles)", type: "badge" },
+      { label: "Indic Font Engine Bounds Check", value: "Enabled", type: "badge" },
+    ],
+  },
+  {
+    title: "Notifications",
+    icon: Bell,
+    items: [
+      { label: "Test failure alerts", value: "Email + In-app", type: "text" },
+      { label: "Weekly digest", value: "Enabled", type: "badge" },
+    ],
+  },
 ];
 
 export default function SettingsPage() {
-  const { isBackendConnected } = useAppState();
-  const [copiedKey, setCopiedKey] = useState(false);
-
-  const copyApiKey = () => {
-    navigator.clipboard.writeText("tp_live_9f8a2bc4e7d110998a44bvcet2026");
-    setCopiedKey(true);
-    setTimeout(() => setCopiedKey(false), 2000);
-  };
-
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="space-y-6 max-w-3xl">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Settings & Platform</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          System configurations, Team Pikachu credentials, and simulation parameters
-        </p>
+        <h1 className="text-2xl font-bold text-foreground">Settings</h1>
+        <p className="text-sm text-muted-foreground mt-1">Manage platform configuration and preferences</p>
       </div>
 
-      {/* Team Pikachu Card */}
-      <div className="glass-card p-6 border border-primary/30 glow-primary">
-        <div className="flex items-center justify-between mb-4 pb-3 border-b border-border/60">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-xl">
-              ⚡
-            </div>
-            <div>
-              <h2 className="text-base font-bold text-foreground">Team Pikachu</h2>
-              <p className="text-xs text-muted-foreground">VCET Hackathon 2026 • Problem Statement Solution</p>
-            </div>
+      {settingSections.map((section) => (
+        <div key={section.title} className="glass-card p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <section.icon className="w-4 h-4 text-primary" />
+            <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
           </div>
-          <span className="px-3 py-1 rounded-full bg-primary/15 text-primary text-xs font-semibold">
-            Official Submission
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-          {teamMembers.map((member) => (
-            <div
-              key={member.name}
-              className="p-3 rounded-xl bg-secondary/50 border border-border/50 flex items-start gap-3"
-            >
-              <div className="w-8 h-8 rounded-lg bg-card flex items-center justify-center text-base flex-shrink-0">
-                {member.avatar}
+          <div className="space-y-3">
+            {section.items.map((item) => (
+              <div key={item.label} className="flex items-center justify-between py-2">
+                <span className="text-sm text-muted-foreground">{item.label}</span>
+                {item.type === "badge" ? (
+                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-success/10 text-success">
+                    {item.value}
+                  </span>
+                ) : item.type === "mono" ? (
+                  <code className="text-xs bg-secondary px-2.5 py-1 rounded-lg text-foreground/80 font-mono">
+                    {item.value}
+                  </code>
+                ) : (
+                  <span className="text-sm text-foreground font-medium">{item.value}</span>
+                )}
               </div>
-              <div>
-                <p className="font-semibold text-sm text-foreground">{member.name}</p>
-                <p className="text-xs text-primary font-medium">{member.role}</p>
-                <p className="text-[11px] text-muted-foreground mt-0.5">{member.focus}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* India Simulation Gateway Engine Settings */}
-      <div className="glass-card p-5 space-y-4">
-        <div className="flex items-center gap-2 mb-2">
-          <Cpu className="w-4 h-4 text-primary" />
-          <h3 className="text-sm font-semibold text-foreground">India Simulation Gateway Parameters</h3>
-        </div>
-
-        <div className="space-y-3 text-sm">
-          <div className="flex items-center justify-between py-2 border-b border-border/40">
-            <div>
-              <p className="font-medium text-foreground">API Gateway Status</p>
-              <p className="text-xs text-muted-foreground">Express Gateway on Node.js (Port 3001)</p>
-            </div>
-            <span
-              className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                isBackendConnected ? "bg-success/15 text-success" : "bg-emerald-500/20 text-emerald-400"
-              }`}
-            >
-              Online & Connected
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between py-2 border-b border-border/40">
-            <div>
-              <p className="font-medium text-foreground">Async Job Queue</p>
-              <p className="text-xs text-muted-foreground">Bull Queue + Redis for background execution</p>
-            </div>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary/10 text-primary">
-              Active (Worker Pool: 4)
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between py-2 border-b border-border/40">
-            <div>
-              <p className="font-medium text-foreground">Multilingual Font Bounds Verification</p>
-              <p className="text-xs text-muted-foreground">Checks 22 Indian languages for glyph clipping</p>
-            </div>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-success/10 text-success">
-              Enabled
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between py-2">
-            <div>
-              <p className="font-medium text-foreground">Deep Rural 2G / Edge Latency Emulation</p>
-              <p className="text-xs text-muted-foreground">Emulates 650ms RTT & 200kbps bandwidth limits</p>
-            </div>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-success/10 text-success">
-              Enabled (4x Delay)
-            </span>
+            ))}
           </div>
         </div>
-      </div>
-
-      {/* API Keys & CI/CD */}
-      <div className="glass-card p-5 space-y-4">
-        <div className="flex items-center gap-2 mb-2">
-          <Key className="w-4 h-4 text-primary" />
-          <h3 className="text-sm font-semibold text-foreground">API Keys & CI/CD Integration</h3>
-        </div>
-
-        <div className="space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between py-2 gap-2">
-            <div>
-              <p className="text-sm font-medium text-foreground">Production API Key</p>
-              <p className="text-xs text-muted-foreground">Use in GitHub Actions or Maestro CLI runner</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <code className="text-xs bg-secondary px-3 py-1.5 rounded-lg text-emerald-400 font-mono">
-                tp_live_••••••••••••k9xZ
-              </code>
-              <button
-                onClick={copyApiKey}
-                className="h-8 px-2.5 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground text-xs flex items-center gap-1.5 transition-colors"
-              >
-                {copiedKey ? <Check className="w-3.5 h-3.5 text-success" /> : <Copy className="w-3.5 h-3.5" />}
-                {copiedKey ? "Copied" : "Copy"}
-              </button>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between py-2 gap-2 border-t border-border/40">
-            <div>
-              <p className="text-sm font-medium text-foreground">Webhook Target Endpoint</p>
-              <p className="text-xs text-muted-foreground">Triggered on test completion or failure alert</p>
-            </div>
-            <code className="text-xs bg-secondary px-3 py-1.5 rounded-lg text-foreground/80 font-mono">
-              https://api.testpulse.io/v1/webhook
-            </code>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

@@ -1,0 +1,607 @@
+{
+  "users": [
+    {
+      "id": "u-1",
+      "name": "Team Pikachu",
+      "email": "demo@testpulse.io",
+      "role": "Lead QA & DevOps",
+      "members": [
+        "Sabin P S",
+        "Rikisha Shetty",
+        "Krithi",
+        "Deeksha K"
+      ],
+      "token": "tp_jwt_team_pikachu_auth_token_2026"
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "name": "ShopEasy Mobile",
+      "appName": "ShopEasy",
+      "platform": "android",
+      "packageId": "com.shopeasy.app",
+      "version": "2.4.1",
+      "totalRuns": 128,
+      "passRate": 94.5,
+      "lastRun": "2026-03-31T16:00:00Z",
+      "status": "active",
+      "description": "Indian e-commerce shopping app optimized for tier 2/3 markets."
+    },
+    {
+      "id": "proj-2",
+      "name": "FitTrack Health",
+      "appName": "FitTrack",
+      "platform": "ios",
+      "packageId": "com.fittrack.health",
+      "version": "1.8.0",
+      "totalRuns": 76,
+      "passRate": 88.2,
+      "lastRun": "2026-03-30T21:15:00Z",
+      "status": "active",
+      "description": "Fitness and health tracker with offline pedometer logging."
+    },
+    {
+      "id": "proj-3",
+      "name": "QuickChat Messenger",
+      "appName": "QuickChat",
+      "platform": "cross-platform",
+      "packageId": "com.quickchat.app",
+      "version": "3.1.2",
+      "totalRuns": 234,
+      "passRate": 91,
+      "lastRun": "2026-03-31T21:15:00Z",
+      "status": "active",
+      "description": "Lightweight regional messaging app with voice notes & 12 Indian languages."
+    },
+    {
+      "id": "proj-4",
+      "name": "KiranaPay UPI",
+      "appName": "KiranaPay",
+      "platform": "android",
+      "packageId": "in.kiranapay.merchant",
+      "version": "1.2.0",
+      "totalRuns": 42,
+      "passRate": 83.3,
+      "lastRun": "2026-03-31T18:20:00Z",
+      "status": "active",
+      "description": "Soundbox and QR payment app tested for intermittent 2G/3G connectivity."
+    }
+  ],
+  "deviceProfiles": [
+    {
+      "id": "dp-1",
+      "name": "Pixel 8 Pro",
+      "category": "high-end",
+      "os": "Android 14",
+      "ram": "12 GB",
+      "cpu": "Tensor G3",
+      "networkCondition": "4G LTE",
+      "delayFactor": 1,
+      "icon": "📱",
+      "screenRes": "1344 x 2992 (120Hz)",
+      "storageSpeed": "UFS 3.1",
+      "multilingualSupport": "High (Full Noto Sans Indic)"
+    },
+    {
+      "id": "dp-2",
+      "name": "Samsung A14",
+      "category": "mid-range",
+      "os": "Android 13",
+      "ram": "4 GB",
+      "cpu": "Exynos 850",
+      "networkCondition": "4G",
+      "delayFactor": 1.5,
+      "icon": "📱",
+      "screenRes": "1080 x 2408 (90Hz)",
+      "storageSpeed": "eMMC 5.1",
+      "multilingualSupport": "Medium (Standard Indic)"
+    },
+    {
+      "id": "dp-3",
+      "name": "Redmi 9A",
+      "category": "low-end",
+      "os": "Android 12",
+      "ram": "2 GB",
+      "cpu": "Helio G25",
+      "networkCondition": "3G",
+      "delayFactor": 2.5,
+      "icon": "📱",
+      "screenRes": "720 x 1600 (60Hz)",
+      "storageSpeed": "eMMC 5.1 Slow",
+      "multilingualSupport": "Vulnerable to Font Clipping"
+    },
+    {
+      "id": "dp-4",
+      "name": "iPad Air",
+      "category": "tablet",
+      "os": "iPadOS 17",
+      "ram": "8 GB",
+      "cpu": "M1",
+      "networkCondition": "WiFi",
+      "delayFactor": 1,
+      "icon": "📟",
+      "screenRes": "1640 x 2360",
+      "storageSpeed": "NVMe",
+      "multilingualSupport": "High"
+    },
+    {
+      "id": "dp-5",
+      "name": "Sim: Poor Network",
+      "category": "poor-network",
+      "os": "Android 13",
+      "ram": "6 GB",
+      "cpu": "Snapdragon 680",
+      "networkCondition": "2G / Edge",
+      "delayFactor": 4,
+      "icon": "📶",
+      "screenRes": "1080 x 2400",
+      "storageSpeed": "UFS 2.2",
+      "multilingualSupport": "High Latency Image Fetch"
+    },
+    {
+      "id": "dp-6",
+      "name": "Sim: Low Memory",
+      "category": "low-memory",
+      "os": "Android 12",
+      "ram": "1 GB",
+      "cpu": "MT6739",
+      "networkCondition": "3G",
+      "delayFactor": 3,
+      "icon": "💾",
+      "screenRes": "720 x 1520",
+      "storageSpeed": "eMMC 5.0",
+      "multilingualSupport": "Low heap / OOM Risk"
+    },
+    {
+      "id": "dp-7",
+      "name": "JioPhone Next",
+      "category": "low-end",
+      "os": "Pragati OS (Android 11 Go)",
+      "ram": "2 GB",
+      "cpu": "QM215 Quad-core",
+      "networkCondition": "4G Jio Throttled",
+      "delayFactor": 2.8,
+      "icon": "🇮🇳",
+      "screenRes": "720 x 1440",
+      "storageSpeed": "eMMC 5.1",
+      "multilingualSupport": "Pragati Voice & Read Aloud"
+    }
+  ],
+  "testRuns": [
+    {
+      "id": "run-1",
+      "projectId": "proj-1",
+      "profileId": "dp-1",
+      "profileName": "Pixel 8 Pro",
+      "framework": "maestro",
+      "status": "passed",
+      "totalTests": 24,
+      "passedTests": 24,
+      "failedTests": 0,
+      "executionTime": 45200,
+      "startedAt": "2026-03-31T16:00:00Z",
+      "appVersion": "2.4.1",
+      "language": "en",
+      "networkPreset": "4G LTE",
+      "suggestions": [
+        "All tests passed. App performs optimally on high-end devices.",
+        "CPU utilization stayed below 22% during peak payment transaction."
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "name": "Launch application",
+          "status": "passed",
+          "duration": 2100
+        },
+        {
+          "id": "s2",
+          "name": "Navigate to login screen",
+          "status": "passed",
+          "duration": 800
+        },
+        {
+          "id": "s3",
+          "name": "Enter email credentials",
+          "status": "passed",
+          "duration": 1200
+        },
+        {
+          "id": "s4",
+          "name": "Tap login button",
+          "status": "passed",
+          "duration": 500
+        },
+        {
+          "id": "s5",
+          "name": "Verify home screen loaded",
+          "status": "passed",
+          "duration": 3200
+        },
+        {
+          "id": "s6",
+          "name": "Search item 'Cotton Kurta'",
+          "status": "passed",
+          "duration": 1400
+        },
+        {
+          "id": "s7",
+          "name": "Add to shopping cart",
+          "status": "passed",
+          "duration": 900
+        },
+        {
+          "id": "s8",
+          "name": "Proceed to UPI checkout",
+          "status": "passed",
+          "duration": 1800
+        }
+      ],
+      "yamlFlow": "appId: com.shopeasy.app\n---\n- launchApp\n- assertVisible: \"Welcome\"\n- tapOn: \"Login\"\n- inputText: \"user@testpulse.in\"\n- tapOn: \"Continue\"\n- assertVisible: \"Products\"\n- tapOn: \"Add to Cart\"\n- tapOn: \"Checkout\""
+    },
+    {
+      "id": "run-2",
+      "projectId": "proj-1",
+      "profileId": "dp-3",
+      "profileName": "Redmi 9A",
+      "framework": "maestro",
+      "status": "failed",
+      "totalTests": 24,
+      "passedTests": 19,
+      "failedTests": 5,
+      "executionTime": 112800,
+      "startedAt": "2026-03-31T14:45:00Z",
+      "appVersion": "2.4.1",
+      "language": "hi (Hindi)",
+      "networkPreset": "3G Standard",
+      "suggestions": [
+        "Execution time is 2.5x higher on low-end profile (Redmi 9A).",
+        "5 tests failed due to timeout — consider optimizing product image assets with WebP/AVIF compression.",
+        "Memory usage spikes detected during checkout flow (185MB allocated on 2GB RAM budget).",
+        "Devanagari font glyph clipping observed on payment button labels."
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "name": "Launch application",
+          "status": "passed",
+          "duration": 5400
+        },
+        {
+          "id": "s2",
+          "name": "Navigate to login screen",
+          "status": "passed",
+          "duration": 2100
+        },
+        {
+          "id": "s3",
+          "name": "Enter email credentials",
+          "status": "passed",
+          "duration": 3100
+        },
+        {
+          "id": "s4",
+          "name": "Tap login button",
+          "status": "passed",
+          "duration": 1800
+        },
+        {
+          "id": "s5",
+          "name": "Verify home screen loaded",
+          "status": "failed",
+          "duration": 12000,
+          "error": "Timeout waiting for product feed (exceeded 10000ms threshold)"
+        },
+        {
+          "id": "s6",
+          "name": "Search item in Hindi 'कुर्ता'",
+          "status": "passed",
+          "duration": 4200
+        },
+        {
+          "id": "s7",
+          "name": "Add to shopping cart",
+          "status": "failed",
+          "duration": 9500,
+          "error": "Out of memory GC pause caused UI freeze"
+        },
+        {
+          "id": "s8",
+          "name": "Proceed to UPI checkout",
+          "status": "failed",
+          "duration": 8000,
+          "error": "Button not interactable due to background redraw"
+        }
+      ],
+      "yamlFlow": "appId: com.shopeasy.app\n---\n- launchApp\n- assertVisible: \"स्वागत है\"\n- tapOn: \"लॉगिन करें\"\n- inputText: \"sharma@testpulse.in\"\n- tapOn: \"आगे बढ़ें\"\n- tapOn: \"कार्ट में जोड़ें\""
+    },
+    {
+      "id": "run-3",
+      "projectId": "proj-1",
+      "profileId": "dp-5",
+      "profileName": "Sim: Poor Network",
+      "framework": "maestro",
+      "status": "failed",
+      "totalTests": 24,
+      "passedTests": 16,
+      "failedTests": 8,
+      "executionTime": 189400,
+      "startedAt": "2026-03-31T13:30:00Z",
+      "appVersion": "2.4.1",
+      "language": "en",
+      "networkPreset": "2G / Edge (200kbps, 650ms RTT)",
+      "suggestions": [
+        "Test failure rate increases significantly under weak 2G/Edge network.",
+        "API timeouts on product search and checkout endpoints (650ms roundtrip delay).",
+        "Consider implementing offline caching and optimistic UI updates for critical shopping journeys."
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "name": "Launch application",
+          "status": "passed",
+          "duration": 3200
+        },
+        {
+          "id": "s2",
+          "name": "Fetch remote config",
+          "status": "failed",
+          "duration": 15000,
+          "error": "SocketTimeoutException: failed to connect to api.shopeasy.app"
+        },
+        {
+          "id": "s3",
+          "name": "Retry connecting over 2G",
+          "status": "passed",
+          "duration": 8400
+        },
+        {
+          "id": "s4",
+          "name": "Submit UPI checkout",
+          "status": "failed",
+          "duration": 18000,
+          "error": "Gateway timed out waiting for soundbox notification"
+        }
+      ],
+      "yamlFlow": "appId: com.shopeasy.app\n---\n- launchApp\n- assertVisible: \"Offline Banner\"\n- tapOn: \"Retry\"\n- tapOn: \"Fast Checkout\""
+    },
+    {
+      "id": "run-4",
+      "projectId": "proj-2",
+      "profileId": "dp-1",
+      "profileName": "Pixel 8 Pro",
+      "framework": "appium",
+      "status": "passed",
+      "totalTests": 18,
+      "passedTests": 18,
+      "failedTests": 0,
+      "executionTime": 38500,
+      "startedAt": "2026-03-30T21:15:00Z",
+      "appVersion": "1.8.0",
+      "language": "en",
+      "networkPreset": "4G LTE",
+      "suggestions": [
+        "All tests passed on high-end profile.",
+        "Battery temperature remained within 31°C."
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "name": "Initialize Appium Driver",
+          "status": "passed",
+          "duration": 2500
+        },
+        {
+          "id": "s2",
+          "name": "Sync step counter background data",
+          "status": "passed",
+          "duration": 1200
+        },
+        {
+          "id": "s3",
+          "name": "Render health vitals radar chart",
+          "status": "passed",
+          "duration": 1100
+        }
+      ],
+      "yamlFlow": "// Appium Test Flow\ndriver.launchApp();\ndriver.findElementById(\"sync_health\").click();\ndriver.assertElementVisible(\"daily_goal_passed\");"
+    },
+    {
+      "id": "run-5",
+      "projectId": "proj-2",
+      "profileId": "dp-2",
+      "profileName": "Samsung A14",
+      "framework": "appium",
+      "status": "passed",
+      "totalTests": 18,
+      "passedTests": 17,
+      "failedTests": 1,
+      "executionTime": 67200,
+      "startedAt": "2026-03-30T19:50:00Z",
+      "appVersion": "1.8.0",
+      "language": "en",
+      "networkPreset": "4G Standard",
+      "suggestions": [
+        "Minor animation lag on step tracking screen.",
+        "Recommend disabling complex blur filters on Mali GPU."
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "name": "Launch FitTrack",
+          "status": "passed",
+          "duration": 3200
+        },
+        {
+          "id": "s2",
+          "name": "GPS route map rendering",
+          "status": "passed",
+          "duration": 4100
+        },
+        {
+          "id": "s3",
+          "name": "Export daily PDF report",
+          "status": "failed",
+          "duration": 5600,
+          "error": "Canvas rasterization dropped 12 frames"
+        }
+      ]
+    },
+    {
+      "id": "run-6",
+      "projectId": "proj-3",
+      "profileId": "dp-4",
+      "profileName": "iPad Air",
+      "framework": "maestro",
+      "status": "passed",
+      "totalTests": 30,
+      "passedTests": 29,
+      "failedTests": 1,
+      "executionTime": 52100,
+      "startedAt": "2026-03-31T13:45:00Z",
+      "appVersion": "3.1.2",
+      "language": "en",
+      "networkPreset": "WiFi High Speed",
+      "suggestions": [
+        "Layout issue on tablet — chat input overlaps toolbar on landscape orientation."
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "name": "Connect WebSocket",
+          "status": "passed",
+          "duration": 450
+        },
+        {
+          "id": "s2",
+          "name": "Load 200 message history",
+          "status": "passed",
+          "duration": 1600
+        },
+        {
+          "id": "s3",
+          "name": "Send multimedia video note",
+          "status": "passed",
+          "duration": 3200
+        }
+      ]
+    },
+    {
+      "id": "run-7",
+      "projectId": "proj-3",
+      "profileId": "dp-4",
+      "profileName": "iPad Air",
+      "framework": "appium",
+      "status": "failed",
+      "totalTests": 22,
+      "passedTests": 20,
+      "failedTests": 2,
+      "executionTime": 15400,
+      "startedAt": "2026-03-31T21:15:00Z",
+      "appVersion": "3.1.2",
+      "language": "en",
+      "networkPreset": "WiFi",
+      "suggestions": [
+        "Two test steps interrupted by split-screen multitasking gesture simulation."
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "name": "Launch app",
+          "status": "passed",
+          "duration": 1200
+        },
+        {
+          "id": "s2",
+          "name": "Orientation change test",
+          "status": "failed",
+          "duration": 2400,
+          "error": "Keyboard dismissed unexpectedly"
+        }
+      ]
+    },
+    {
+      "id": "run-8",
+      "projectId": "proj-3",
+      "profileId": "dp-6",
+      "profileName": "Sim: Low Memory",
+      "framework": "maestro",
+      "status": "failed",
+      "totalTests": 30,
+      "passedTests": 21,
+      "failedTests": 9,
+      "executionTime": 156300,
+      "startedAt": "2026-03-30T22:00:00Z",
+      "appVersion": "3.1.2",
+      "language": "ta (Tamil)",
+      "networkPreset": "3G Standard",
+      "suggestions": [
+        "App crashes under low memory (1GB RAM) when loading media-heavy chats.",
+        "Consider lazy loading images in conversation view.",
+        "Background audio recorder service consumes excessive memory.",
+        "Tamil Unicode rendering ligature bug on low-end MediaTek font engine."
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "name": "Launch app",
+          "status": "passed",
+          "duration": 4800
+        },
+        {
+          "id": "s2",
+          "name": "Load Tamil conversation",
+          "status": "passed",
+          "duration": 3900
+        },
+        {
+          "id": "s3",
+          "name": "Play voice memo",
+          "status": "failed",
+          "duration": 8100,
+          "error": "AudioBuffer OOM: device ran out of native memory"
+        }
+      ]
+    },
+    {
+      "id": "run-9",
+      "projectId": "proj-1",
+      "profileId": "dp-2",
+      "profileName": "Samsung A14",
+      "framework": "maestro",
+      "status": "running",
+      "totalTests": 24,
+      "passedTests": 14,
+      "failedTests": 0,
+      "executionTime": 0,
+      "startedAt": "2026-11-17T16:12:11.177Z",
+      "appVersion": "2.4.1",
+      "language": "te (Telugu)",
+      "networkPreset": "4G Standard",
+      "suggestions": [
+        "Run currently processing in background queue..."
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "name": "Launch application",
+          "status": "passed",
+          "duration": 2800
+        },
+        {
+          "id": "s2",
+          "name": "Load Telugu catalog",
+          "status": "passed",
+          "duration": 1900
+        },
+        {
+          "id": "s3",
+          "name": "Initiate payment gateway",
+          "status": "running",
+          "duration": 1200
+        }
+      ]
+    }
+  ]
+}
