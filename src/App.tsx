@@ -10,6 +10,7 @@ import Projects from "./pages/Projects";
 import TestRuns from "./pages/TestRuns";
 import Devices from "./pages/Devices";
 import Analytics from "./pages/Analytics";
+import Reports from "./pages/Reports";
 import SettingsPage from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="/test-runs" element={<TestRuns />} />
               <Route path="/devices" element={<Devices />} />
               <Route path="/analytics" element={<Analytics />} />
+              <Route path="/reports" element={<Reports />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

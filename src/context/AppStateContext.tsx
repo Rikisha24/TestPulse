@@ -1,26 +1,67 @@
-import { createContext, useContext, useState, useCallback, useRef, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import {
   type Project,
   type TestRun,
   type DeviceProfile,
+  type TestStep,
   demoProjects,
   demoTestRuns,
   deviceProfiles as defaultDeviceProfiles,
   demoTestSteps,
-  type TestStep,
 } from "@/lib/demo-data";
 
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  members: string[];
+}
+
+export interface SimulationConfig {
+  projectId: string;
+  profileId: string;
+  framework: "maestro" | "appium";
+  language?: string;
+  networkPreset?: string;
+  customYaml?: string;
+}
+
+export interface AppReport {
+  id: string;
+  runId: string;
+  projectName: string;
+  profileName: string;
+  framework: string;
+  status: "passed" | "failed";
+  passRate: number;
+  executionTime: number;
+  complianceScore: number;
+  date: string;
+  suggestions: string[];
+}
+
 interface AppState {
+  user: UserProfile | null;
   projects: Project[];
   testRuns: TestRun[];
   deviceProfiles: DeviceProfile[];
-  addProject: (p: Omit<Project, "id" | "totalRuns" | "passRate" | "lastRun" | "status">) => void;
-  deleteProject: (id: string) => void;
+  reports: AppReport[];
+  searchQuery: string;
+  setSearchQuery: (q: string) => void;
+  addProject: (p: Omit<Project, "id" | "totalRuns" | "passRate" | "lastRun" | "status">) => Promise<void>;
+  deleteProject: (id: string) => Promise<void>;
   addTestRun: (run: Omit<TestRun, "id">) => string;
   updateTestRun: (id: string, updates: Partial<TestRun>) => void;
-  addDeviceProfile: (dp: Omit<DeviceProfile, "id">) => void;
-  deleteDeviceProfile: (id: string) => void;
-  simulateTestRun: (projectId: string, profileId: string, framework: "maestro" | "appium") => void;
+  addDeviceProfile: (dp: Omit<DeviceProfile, "id">) => Promise<void>;
+  deleteDeviceProfile: (id: string) => Promise<void>;
+  simulateTestRun: (projectId: string, profileId: string, framework: "maestro" | "appium", options?: { language?: string; networkPreset?: string; customYaml?: string }) => Promise<string>;
+  activeSimulationRunId: string | null;
+  setActiveSimulationRunId: (id: string | null) => void;
+  isBackendConnected: boolean;
+  refreshData: () => Promise<void>;
+  login: (email: string) => Promise<void>;
+  logout: () => void;
 }
 
 const AppContext = createContext<AppState | null>(null);
@@ -31,33 +72,129 @@ export function useAppState() {
   return ctx;
 }
 
-let idCounter = 100;
-const genId = (prefix: string) => `${prefix}-${++idCounter}`;
+const defaultUser: UserProfile = {
+  id: "u-1",
+  name: "Team Pikachu",
+  email: "demo@testpulse.io",
+  role: "Lead QA & Systems Engineering",
+  members: ["Sabin P S", "Rikisha Shetty", "Krithi", "Deeksha K"],
+};
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<UserProfile | null>(defaultUser);
   const [projects, setProjects] = useState<Project[]>(demoProjects);
   const [testRuns, setTestRuns] = useState<TestRun[]>(demoTestRuns);
   const [deviceProfilesList, setDeviceProfiles] = useState<DeviceProfile[]>(defaultDeviceProfiles);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeSimulationRunId, setActiveSimulationRunId] = useState<string | null>(null);
+  const [isBackendConnected, setIsBackendConnected] = useState(false);
 
-  const addProject = useCallback((p: Omit<Project, "id" | "totalRuns" | "passRate" | "lastRun" | "status">) => {
-    const newProject: Project = {
-      ...p,
-      id: genId("proj"),
-      totalRuns: 0,
-      passRate: 0,
-      lastRun: new Date().toISOString(),
-      status: "active",
-    };
-    setProjects((prev) => [newProject, ...prev]);
+  // Generate initial reports from test runs
+  const [reports, setReports] = useState<AppReport[]>(() =>
+    demoTestRuns.map((r, i) => ({
+      id: `rep-${r.id}`,
+      runId: r.id,
+      projectName: demoProjects.find((p) => p.id === r.projectId)?.name || "Mobile App",
+      profileName: r.profileName,
+      framework: r.framework,
+      status: r.status === "failed" ? "failed" : "passed",
+      passRate: Math.round((r.passedTests / Math.max(r.totalTests, 1)) * 100),
+      executionTime: r.executionTime,
+      complianceScore: r.status === "passed" ? 95 - i * 2 : 62 + i * 3,
+      date: r.startedAt,
+      suggestions: r.suggestions || ["Optimal performance on target profile."],
+    }))
+  );
+
+  // Sync with backend API
+  const refreshData = useCallback(async () => {
+    try {
+      const [projRes, devRes, runsRes] = await Promise.all([
+        fetch("/api/projects").catch(() => null),
+        fetch("/api/devices").catch(() => null),
+        fetch("/api/test-runs").catch(() => null),
+      ]);
+
+      if (projRes && projRes.ok) {
+        const data = await projRes.json();
+        if (data.projects) setProjects(data.projects);
+        setIsBackendConnected(true);
+      }
+      if (devRes && devRes.ok) {
+        const data = await devRes.json();
+        if (data.devices) setDeviceProfiles(data.devices);
+      }
+      if (runsRes && runsRes.ok) {
+        const data = await runsRes.json();
+        if (data.testRuns) {
+          setTestRuns(data.testRuns);
+          // Sync reports
+          const newReports = data.testRuns.map((r: any, idx: number) => ({
+            id: `rep-${r.id}`,
+            runId: r.id,
+            projectName: r.projectName || "Mobile App",
+            profileName: r.profileName,
+            framework: r.framework,
+            status: r.status === "failed" ? "failed" : "passed",
+            passRate: Math.round((r.passedTests / Math.max(r.totalTests, 1)) * 100),
+            executionTime: r.executionTime,
+            complianceScore: r.status === "passed" ? 96 : 64,
+            date: r.startedAt,
+            suggestions: r.suggestions || [],
+          }));
+          setReports(newReports);
+        }
+      }
+    } catch {
+      setIsBackendConnected(false);
+    }
   }, []);
 
-  const deleteProject = useCallback((id: string) => {
+  useEffect(() => {
+    refreshData();
+    const interval = setInterval(refreshData, 6000);
+    return () => clearInterval(interval);
+  }, [refreshData]);
+
+  const addProject = useCallback(
+    async (p: Omit<Project, "id" | "totalRuns" | "passRate" | "lastRun" | "status">) => {
+      try {
+        const res = await fetch("/api/projects", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(p),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setProjects((prev) => [data.project, ...prev]);
+          return;
+        }
+      } catch {}
+
+      // Fallback local
+      const newProject: Project = {
+        ...p,
+        id: `proj-${Date.now()}`,
+        totalRuns: 0,
+        passRate: 100,
+        lastRun: new Date().toISOString(),
+        status: "active",
+      };
+      setProjects((prev) => [newProject, ...prev]);
+    },
+    []
+  );
+
+  const deleteProject = useCallback(async (id: string) => {
+    try {
+      await fetch(`/api/projects/${id}`, { method: "DELETE" });
+    } catch {}
     setProjects((prev) => prev.filter((p) => p.id !== id));
     setTestRuns((prev) => prev.filter((r) => r.projectId !== id));
   }, []);
 
   const addTestRun = useCallback((run: Omit<TestRun, "id">) => {
-    const id = genId("run");
+    const id = `run-${Date.now()}`;
     const newRun: TestRun = { ...run, id };
     setTestRuns((prev) => [newRun, ...prev]);
     return id;
@@ -67,23 +204,86 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setTestRuns((prev) => prev.map((r) => (r.id === id ? { ...r, ...updates } : r)));
   }, []);
 
-  const addDeviceProfile = useCallback((dp: Omit<DeviceProfile, "id">) => {
-    setDeviceProfiles((prev) => [...prev, { ...dp, id: genId("dp") }]);
+  const addDeviceProfile = useCallback(async (dp: Omit<DeviceProfile, "id">) => {
+    try {
+      const res = await fetch("/api/devices", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dp),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setDeviceProfiles((prev) => [...prev, data.device]);
+        return;
+      }
+    } catch {}
+
+    setDeviceProfiles((prev) => [...prev, { ...dp, id: `dp-${Date.now()}` }]);
   }, []);
 
-  const deleteDeviceProfile = useCallback((id: string) => {
+  const deleteDeviceProfile = useCallback(async (id: string) => {
+    try {
+      await fetch(`/api/devices/${id}`, { method: "DELETE" });
+    } catch {}
     setDeviceProfiles((prev) => prev.filter((dp) => dp.id !== id));
   }, []);
 
-  // Simulates a test run with step-by-step progress
+  // Main simulation launcher
   const simulateTestRun = useCallback(
-    (projectId: string, profileId: string, framework: "maestro" | "appium") => {
+    async (
+      projectId: string,
+      profileId: string,
+      framework: "maestro" | "appium",
+      options?: { language?: string; networkPreset?: string; customYaml?: string }
+    ): Promise<string> => {
       const profile = deviceProfilesList.find((dp) => dp.id === profileId);
       const project = projects.find((p) => p.id === projectId);
-      if (!profile || !project) return;
+      if (!profile || !project) return "";
 
-      const totalTests = 12 + Math.floor(Math.random() * 12);
-      const runId = genId("run");
+      const language = options?.language || "en";
+      const networkPreset = options?.networkPreset || profile.networkCondition;
+
+      // Try dispatching to backend
+      try {
+        const res = await fetch("/api/test-runs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            projectId,
+            profileId,
+            framework,
+            language,
+            networkPreset,
+            customYaml: options?.customYaml,
+          }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.run) {
+            setTestRuns((prev) => [data.run, ...prev]);
+            setActiveSimulationRunId(data.run.id);
+            // Refresh in background to capture progression
+            setTimeout(refreshData, 1500);
+            setTimeout(refreshData, 3500);
+            return data.run.id;
+          }
+        }
+      } catch {}
+
+      // Robust in-browser simulation fallback
+      const totalTests = 20 + Math.floor(Math.random() * 8);
+      const runId = `run-${Date.now()}`;
+      const defaultYaml =
+        options?.customYaml ||
+        `appId: ${project.packageId}
+---
+- launchApp
+- assertVisible: "Home"
+- tapOn: "Catalog"
+- scroll
+- tapOn: "Quick Pay"
+- assertVisible: "Success"`;
 
       const newRun: TestRun = {
         id: runId,
@@ -98,89 +298,104 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         executionTime: 0,
         startedAt: new Date().toISOString(),
         appVersion: project.version,
+        yamlFlow: defaultYaml,
+        suggestions: ["Simulation running in background..."],
+        steps: [
+          { id: "s1", name: "Launch application binary", status: "passed", duration: 1800 },
+          { id: "s2", name: `Apply ${profile.name} hardware constraints`, status: "running", duration: 900 },
+        ],
       };
 
       setTestRuns((prev) => [newRun, ...prev]);
+      setActiveSimulationRunId(runId);
 
-      // Simulate progress over time
-      const delayBase = 800;
-      let step = 0;
+      // Simulate steps progressively
       let passed = 0;
       let failed = 0;
-      const startTime = Date.now();
+      const isPoor = profile.category === "poor-network" || profile.category === "low-memory" || profile.delayFactor > 2.0;
 
-      const interval = setInterval(() => {
-        step++;
-        // ~85% pass rate, worse on higher delay factors
-        const failChance = 0.1 + (profile.delayFactor - 1) * 0.08;
-        if (Math.random() < failChance) {
-          failed++;
+      const timer = setTimeout(() => {
+        const isFailed = isPoor && Math.random() < 0.65;
+        if (isFailed) {
+          failed = 4 + Math.floor(Math.random() * 4);
+          passed = totalTests - failed;
         } else {
-          passed++;
+          passed = totalTests;
+          failed = 0;
         }
 
-        if (step >= totalTests) {
-          clearInterval(interval);
-          const executionTime = Date.now() - startTime;
-          const suggestions: string[] = [];
-          if (failed > 0 && profile.delayFactor > 2) {
-            suggestions.push(`High failure rate on ${profile.name} — consider optimizing for low-spec devices.`);
-          }
-          if (executionTime > 15000) {
-            suggestions.push("Execution time exceeds 15s — review slow test steps.");
-          }
+        const suggestions: string[] = [];
+        if (failed > 0) {
           if (profile.category === "poor-network") {
-            suggestions.push("Network-related timeouts detected. Implement retry logic or offline caching.");
+            suggestions.push("High 2G Network Latency: Implement offline caching and optimistic UI updates.");
+            suggestions.push("API timeouts on product search and checkout endpoints.");
+          } else if (profile.category === "low-memory") {
+            suggestions.push(`High failure rate on ${profile.name} (${profile.ram} RAM) — optimize memory consumption.`);
+            suggestions.push("Bitmap allocations spike during checkout flow. Use RGB_565 config.");
+          } else {
+            suggestions.push(`Regional Indic script layout overflow detected on ${language}.`);
           }
-
-          setTestRuns((prev) =>
-            prev.map((r) =>
-              r.id === runId
-                ? {
-                    ...r,
-                    status: failed > 0 ? "failed" : "passed",
-                    passedTests: passed,
-                    failedTests: failed,
-                    executionTime,
-                    suggestions: suggestions.length > 0 ? suggestions : ["All tests passed successfully."],
-                  }
-                : r
-            )
-          );
-
-          // Update project stats
-          setProjects((prev) =>
-            prev.map((p) => {
-              if (p.id !== projectId) return p;
-              const projectRuns = [...(prev === projects ? testRuns : [])].filter(
-                (r) => r.projectId === projectId
-              );
-              return {
-                ...p,
-                totalRuns: p.totalRuns + 1,
-                lastRun: new Date().toISOString(),
-                passRate: Math.round(((passed / totalTests) * 100 + p.passRate * p.totalRuns) / (p.totalRuns + 1)),
-              };
-            })
-          );
         } else {
-          setTestRuns((prev) =>
-            prev.map((r) =>
-              r.id === runId ? { ...r, passedTests: passed, failedTests: failed } : r
-            )
-          );
+          suggestions.push(`All ${passed} tests passed. App performs optimally on ${profile.name}.`);
         }
-      }, delayBase * profile.delayFactor * (0.5 + Math.random()));
+
+        const mockSteps: TestStep[] = [
+          { id: "s1", name: "Launch application", status: "passed", duration: 2100 * profile.delayFactor },
+          { id: "s2", name: "Navigate to login screen", status: "passed", duration: 800 * profile.delayFactor },
+          { id: "s3", name: "Enter credentials", status: "passed", duration: 1200 * profile.delayFactor },
+          { id: "s4", name: "Tap login button", status: "passed", duration: 500 * profile.delayFactor },
+          {
+            id: "s5",
+            name: "Verify home screen feed",
+            status: failed > 0 ? "failed" : "passed",
+            duration: 3200 * profile.delayFactor,
+            error: failed > 0 ? "Timeout waiting for network response" : undefined,
+          },
+        ];
+
+        setTestRuns((prev) =>
+          prev.map((r) =>
+            r.id === runId
+              ? {
+                  ...r,
+                  status: failed > 0 ? "failed" : "passed",
+                  passedTests: passed,
+                  failedTests: failed,
+                  executionTime: Math.round(18000 * profile.delayFactor),
+                  steps: mockSteps,
+                  suggestions,
+                }
+              : r
+          )
+        );
+      }, 3000);
+
+      return runId;
     },
-    [deviceProfilesList, projects, testRuns]
+    [deviceProfilesList, projects, refreshData]
   );
+
+  const login = async (email: string) => {
+    setUser({
+      ...defaultUser,
+      email,
+    });
+  };
+
+  const logout = () => {
+    setUser(null);
+  };
 
   return (
     <AppContext.Provider
       value={{
+        user,
         projects,
         testRuns,
         deviceProfiles: deviceProfilesList,
+        reports,
+        searchQuery,
+        setSearchQuery,
         addProject,
         deleteProject,
         addTestRun,
@@ -188,6 +403,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         addDeviceProfile,
         deleteDeviceProfile,
         simulateTestRun,
+        activeSimulationRunId,
+        setActiveSimulationRunId,
+        isBackendConnected,
+        refreshData,
+        login,
+        logout,
       }}
     >
       {children}

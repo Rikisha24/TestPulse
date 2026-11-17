@@ -23,6 +23,9 @@ export interface DeviceProfile {
   networkCondition: string;
   delayFactor: number;
   icon: string;
+  screenRes?: string;
+  storageSpeed?: string;
+  multilingualSupport?: string;
 }
 
 export interface TestRun {
@@ -38,8 +41,12 @@ export interface TestRun {
   executionTime: number; // ms
   startedAt: string;
   appVersion: string;
+  language?: string;
+  networkPreset?: string;
+  yamlFlow?: string;
   logs?: string[];
   suggestions?: string[];
+  steps?: TestStep[];
 }
 
 export interface TestStep {
